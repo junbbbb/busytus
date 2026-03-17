@@ -1,149 +1,105 @@
 import React from 'react';
 
-const SharedDefs = () => (
-  <defs>
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="6" stdDeviation="6" floodColor="#000000" floodOpacity="0.12" />
-    </filter>
-  </defs>
-);
+/**
+ * Nano Banana 2.0 Icon Style (Latest)
+ * Characteristics: 
+ * - 2D Flat Duotone
+ * - High Contrast (Slate-800 + Amber-500)
+ * - Geometric Silhouettes
+ * - Consistent Rounded Corners
+ * - No Gradients or Shadows
+ */
+
+const PrimaryColor = "#1E293B"; // Slate-800
+const AccentColor = "#F59E0B";  // Amber-500 (Vibrant Accent)
 
 export const PlungerIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#E6B981" /><stop offset="100%" stopColor="#B48044" /></linearGradient>
-      <linearGradient id="rubber" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FF7676" /><stop offset="100%" stopColor="#D32F2F" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)">
-      <rect x="28" y="10" width="8" height="34" rx="4" fill="url(#wood)" />
-      <rect x="29" y="10" width="2" height="34" fill="#FFF" opacity="0.3" />
-      <path d="M14 42 C14 32, 50 32, 50 42 L54 54 C54 58, 10 58, 10 54 Z" fill="url(#rubber)" />
-      <ellipse cx="32" cy="54" rx="22" ry="5" fill="#B71C1C" />
-      <path d="M18 42 C18 36, 32 36, 32 42" stroke="#FFF" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    {/* Handle */}
+    <rect x="29" y="6" width="6" height="30" rx="3" fill={PrimaryColor} />
+    {/* Cup Base (Duotone Accent) */}
+    <path d="M12 50C12 41.1634 19.1634 34 28 34H36C44.8366 34 52 41.1634 52 50V52H12V50Z" fill={AccentColor} />
+    {/* Cup Bottom (Primary) */}
+    <path d="M10 52H54V56C54 57.1046 53.1046 58 52 58H12C10.8954 58 10 57.1046 10 56V52Z" fill={PrimaryColor} />
   </svg>
 );
 
 export const WrenchIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#F1F5F9" /><stop offset="50%" stopColor="#94A3B8" /><stop offset="100%" stopColor="#475569" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)" transform="rotate(45 32 32)">
-      <rect x="26" y="24" width="12" height="32" rx="6" fill="url(#metal)" />
-      <circle cx="32" cy="18" r="14" fill="url(#metal)" />
-      <circle cx="32" cy="18" r="6" fill="#F6F6F6" />
-      <path d="M18 18 L46 18 L46 6 L18 6 Z" fill="#F6F6F6" />
-      <rect x="28" y="26" width="3" height="28" rx="1.5" fill="#FFF" opacity="0.6" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    <path d="M48.5 15.5C46.5 13.5 43.5 12.5 40 12.5C33 12.5 27.5 18 27.5 25C27.5 28.5 29 31.5 31 33.5L10 54.5L14.5 59L35.5 38C37.5 40 40.5 41.5 44 41.5C51 41.5 56.5 36 56.5 29C56.5 25.5 55.5 22.5 53.5 20.5L58 16L53 11L48.5 15.5Z" fill={AccentColor} />
+    <path d="M10 54.5L14.5 59L33.5 40L29 35.5L10 54.5Z" fill={PrimaryColor} />
+    <path d="M44 41.5C51 41.5 56.5 36 56.5 29C56.5 25.5 55.5 22.5 53.5 20.5L46.5 27.5L41.5 22.5L48.5 15.5C46.5 13.5 43.5 12.5 40 12.5C33 12.5 27.5 18 27.5 25C27.5 28.5 29 31.5 31 33.5L44 41.5Z" fill={PrimaryColor} fillOpacity="0.85" />
+    <circle cx="42" cy="27" r="4" fill="white" />
   </svg>
 );
 
 export const BroomIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="bristles" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FDE68A" /><stop offset="100%" stopColor="#D97706" /></linearGradient>
-      <linearGradient id="stick" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#6EE7B7" /><stop offset="100%" stopColor="#047857" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)" transform="rotate(20 32 32)">
-      <rect x="28" y="6" width="8" height="36" rx="4" fill="url(#stick)" />
-      <rect x="29" y="6" width="2" height="36" fill="#FFF" opacity="0.4" />
-      <path d="M20 40 L44 40 L54 58 C54 62, 10 62, 10 58 Z" fill="url(#bristles)" />
-      <rect x="18" y="38" width="28" height="8" rx="4" fill="#065F46" />
-      <path d="M24 46 L20 58 M32 46 L32 58 M40 46 L44 58" stroke="#92400E" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    {/* Stick */}
+    <rect x="36" y="4" width="6" height="42" rx="3" transform="rotate(20 36 4)" fill={PrimaryColor} />
+    {/* Bristle Head (Duotone Accent) */}
+    <path d="M12 52L18 34H46L52 52C52 55.3137 49.3137 58 46 58H18C14.6863 58 12 55.3137 12 52Z" fill={AccentColor} />
+    {/* Band (Primary) */}
+    <rect x="16" y="34" width="32" height="8" rx="2" fill={PrimaryColor} />
+    {/* Details */}
+    <path d="M22 48V54M32 48V54M42 48V54" stroke="white" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
 export const LeakIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#93C5FD" /><stop offset="100%" stopColor="#2563EB" /></linearGradient>
-      <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#FFF" stopOpacity="0.9" /><stop offset="100%" stopColor="#94A3B8" stopOpacity="0.3" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)">
-      <path d="M28 14 C28 14, 12 34, 12 46 C12 54.8, 19.2 62, 28 62 C36.8 62, 44 54.8, 44 46 C44 34, 28 14, 28 14 Z" fill="url(#water)" />
-      <path d="M20 46 C20 40, 26 34, 28 32" stroke="#FFF" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
-      <circle cx="44" cy="40" r="16" fill="url(#glass)" stroke="#64748B" strokeWidth="4" />
-      <line x1="56" y1="52" x2="64" y2="60" stroke="#475569" strokeWidth="8" strokeLinecap="round" />
-      <path d="M36 34 Q44 28 50 36" stroke="#FFF" strokeWidth="3" strokeLinecap="round" opacity="0.9" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    {/* Water Drop (Accent) */}
+    <path d="M32 6C32 6 12 30 12 44C12 55.0457 20.9543 64 32 64C43.0457 64 52 55.0457 52 44C52 30 32 6 32 6Z" fill={AccentColor} />
+    {/* Highlight */}
+    <path d="M24 44C24 39.5817 27.5817 36 32 36" stroke="white" strokeWidth="4" strokeLinecap="round" />
+    {/* Search/Inspect Tool (Primary) */}
+    <circle cx="46" cy="46" r="10" fill="white" stroke={PrimaryColor} strokeWidth="4" />
+    <path d="M53 53L60 60" stroke={PrimaryColor} strokeWidth="6" strokeLinecap="round" />
   </svg>
 );
 
 export const ACIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FFF" /><stop offset="100%" stopColor="#CBD5E1" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)">
-      <rect x="6" y="14" width="52" height="26" rx="6" fill="url(#ac-body)" stroke="#94A3B8" strokeWidth="2" />
-      <rect x="14" y="28" width="36" height="6" rx="3" fill="#64748B" />
-      <circle cx="50" cy="21" r="2.5" fill="#10B981" />
-      <rect x="8" y="16" width="50" height="4" fill="#FFF" opacity="0.8" />
-      <path d="M22 48 L42 48 M16 56 L48 56" stroke="#38BDF8" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    {/* AC Body (Accent) */}
+    <rect x="6" y="14" width="52" height="30" rx="6" fill={AccentColor} />
+    {/* Front Panel (Primary) */}
+    <rect x="6" y="14" width="52" height="30" rx="6" stroke={PrimaryColor} strokeWidth="4" />
+    <rect x="14" y="32" width="36" height="4" rx="2" fill={PrimaryColor} />
+    <circle cx="50" cy="22" r="2.5" fill={PrimaryColor} />
+    {/* Air Flow */}
+    <path d="M20 52L18 60M32 52V62M44 52L46 60" stroke={PrimaryColor} strokeWidth="3" strokeLinecap="round" />
   </svg>
 );
 
 export const RollerIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6EE7B7" /><stop offset="100%" stopColor="#059669" /></linearGradient>
-      <linearGradient id="handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#FCA5A5" /><stop offset="100%" stopColor="#DC2626" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)" transform="rotate(-15 32 32)">
-      <rect x="14" y="10" width="36" height="18" rx="8" fill="url(#paint)" />
-      <rect x="14" y="12" width="36" height="6" fill="#FFF" opacity="0.3" />
-      <path d="M50 19 L58 19 L58 42 L32 42 L32 48" stroke="#94A3B8" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <rect x="28" y="48" width="8" height="16" rx="4" fill="url(#handle)" />
-      <rect x="29" y="48" width="2" height="16" fill="#FFF" opacity="0.4" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    {/* Roller (Accent) */}
+    <rect x="10" y="10" width="40" height="24" rx="12" fill={AccentColor} />
+    <rect x="10" y="10" width="40" height="24" rx="12" stroke={PrimaryColor} strokeWidth="4" />
+    {/* Handle (Primary) */}
+    <path d="M50 22H58V46H32V52" stroke={PrimaryColor} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+    <rect x="28" y="52" width="8" height="10" rx="2" fill={PrimaryColor} />
   </svg>
 );
 
 export const HouseIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="house-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FEF08A" /><stop offset="100%" stopColor="#F59E0B" /></linearGradient>
-      <linearGradient id="roof" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#FDA4AF" /><stop offset="100%" stopColor="#E11D48" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)">
-      <rect x="14" y="32" width="36" height="26" fill="url(#house-body)" />
-      <polygon points="6,32 32,10 58,32" fill="url(#roof)" />
-      <rect x="26" y="42" width="12" height="16" fill="#78350F" />
-      <rect x="14" y="32" width="36" height="4" fill="#FFF" opacity="0.4" />
-      <path d="M50 14 L52 20 L58 22 L52 24 L50 30 L48 24 L42 22 L48 20 Z" fill="#FDE047" />
-      <path d="M14 10 L15 13 L18 14 L15 15 L14 18 L13 15 L10 14 L13 13 Z" fill="#FDE047" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    {/* House Shape (Accent) */}
+    <path d="M10 32V58H54V32L32 10L10 32Z" fill={AccentColor} />
+    {/* Outline (Primary) */}
+    <path d="M10 32L32 10L54 32V58H10V32Z" stroke={PrimaryColor} strokeWidth="4" strokeLinejoin="round" />
+    {/* Door (Primary) */}
+    <rect x="26" y="44" width="12" height="14" rx="1" fill={PrimaryColor} />
+    {/* Sparkle (White) */}
+    <path d="M46 14L48 20L54 22L48 24L46 30L44 24L38 22L44 20Z" fill="white" />
   </svg>
 );
 
 export const GridIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 drop-shadow-sm">
-    <SharedDefs />
-    <defs>
-      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#C084FC" /><stop offset="100%" stopColor="#7E22CE" /></linearGradient>
-      <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#60A5FA" /><stop offset="100%" stopColor="#1D4ED8" /></linearGradient>
-      <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#34D399" /><stop offset="100%" stopColor="#047857" /></linearGradient>
-      <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#FBBF24" /><stop offset="100%" stopColor="#B45309" /></linearGradient>
-    </defs>
-    <g filter="url(#soft-shadow)">
-      <rect x="12" y="12" width="18" height="18" rx="6" fill="url(#g1)" />
-      <rect x="34" y="12" width="18" height="18" rx="6" fill="url(#g2)" />
-      <rect x="12" y="34" width="18" height="18" rx="6" fill="url(#g3)" />
-      <rect x="34" y="34" width="18" height="18" rx="6" fill="url(#g4)" />
-      <rect x="14" y="14" width="6" height="6" rx="2" fill="#FFF" opacity="0.4" />
-      <rect x="36" y="14" width="6" height="6" rx="2" fill="#FFF" opacity="0.4" />
-      <rect x="14" y="36" width="6" height="6" rx="2" fill="#FFF" opacity="0.4" />
-      <rect x="36" y="36" width="6" height="6" rx="2" fill="#FFF" opacity="0.4" />
-    </g>
+  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-200 group-hover:scale-110">
+    <rect x="10" y="10" width="20" height="20" rx="5" fill={PrimaryColor} />
+    <rect x="34" y="10" width="20" height="20" rx="5" fill={PrimaryColor} />
+    <rect x="10" y="34" width="20" height="20" rx="5" fill={PrimaryColor} />
+    <rect x="34" y="34" width="20" height="20" rx="5" fill={AccentColor} />
   </svg>
 );
