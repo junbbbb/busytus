@@ -1,11 +1,13 @@
 import React from 'react';
-import { 
-  Search, 
-  Menu, 
-  Bell, 
-  User, 
+import {
+  Search,
+  Menu,
+  Bell,
+  User,
   ChevronRight,
-  Star
+  Star,
+  Phone,
+  MapPin
 } from 'lucide-react';
 import {
   PlungerIcon,
@@ -27,6 +29,14 @@ const CATEGORIES = [
   { id: 6, name: '도배/장판', icon: RollerIcon },
   { id: 7, name: '입주 청소', icon: HouseIcon },
   { id: 8, name: '전체보기', icon: GridIcon },
+];
+
+const AVAILABLE_COMPANIES = [
+  { id: 1, name: '만능설비', specialty: '배관/하수구', rating: 4.8, responseTime: '30분' },
+  { id: 2, name: '깔끔청소연구소', specialty: '입주청소', rating: 4.9, responseTime: '1시간' },
+  { id: 3, name: '번개수리', specialty: '전기/조명', rating: 4.7, responseTime: '20분' },
+  { id: 4, name: '숨쉬는공간', specialty: '에어컨', rating: 5.0, responseTime: '45분' },
+  { id: 5, name: '든든잠금', specialty: '잠금장치/도어락', rating: 4.6, responseTime: '15분' },
 ];
 
 const POPULAR_SERVICES = [
@@ -77,9 +87,9 @@ export default function App() {
           <div className="flex items-center gap-8">
             <a href="#" className="flex items-center gap-2.5">
               <img 
-                src="https://img.icons8.com/color/96/worker-male--v1.png" 
+                src="/images/logo/busylogo.png" 
                 alt="비지터스 로고" 
-                className="w-9 h-9 drop-shadow-sm"
+                className="h-9 w-auto"
               />
               <span className="text-2xl font-jua text-[#3b2313] tracking-wide pt-1">
                 비지터스
@@ -113,45 +123,85 @@ export default function App() {
         {/* Hero Section */}
         <section className="pt-6 pb-10 md:pt-8 md:pb-12">
           <div className="max-w-5xl mx-auto px-4">
-            <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50 shadow-sm min-h-[460px] flex items-center">
-              {/* Background Image */}
-              <div className="absolute inset-0 z-0 flex justify-end">
-                <div className="w-full md:w-[75%] h-full relative">
-                  {/* Gradient overlay to blend image with card background */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#f1f5f9] via-[#f1f5f9]/80 to-transparent z-10"></div>
-                  <img 
-                    src="https://image.pollinations.ai/prompt/A%20handsome%2040-year-old%20Asian%20male%20plumber%20wearing%20a%20hard%20hat%20and%20work%20clothes%2C%20giving%20a%20thumbs%20up%2C%20digital%20camera%20style.%20The%20person%20is%20slightly%20to%20the%20right%20of%20the%20center.%20The%20uniform%20has%20the%20word%20'DIGITAS'%20written%20on%20it.%20Plumbing%20background?width=1200&height=800&nologo=true" 
-                    alt="디지타스 전문가" 
-                    className="w-full h-full object-cover object-[70%_center]"
-                    referrerPolicy="no-referrer"
-                    crossOrigin="anonymous"
-                  />
-                </div>
-              </div>
+            <div className="flex flex-col md:flex-row gap-4 md:min-h-[400px]">
 
-              {/* Content */}
-              <div className="relative z-20 w-full px-6 py-12 md:px-12 lg:px-16 md:py-0 md:w-3/5">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-5 leading-[1.25] tracking-tight">
-                  우리 집의 모든 문제,<br /> 전문가가 해결해 드립니다
-                </h1>
-                <p className="text-slate-700 text-base md:text-lg mb-8 max-w-md leading-relaxed font-medium">
-                  변기 막힘부터 도배, 누수 탐지까지.<br className="hidden md:block" /> 검증된 친근한 이웃 전문가를 만나보세요.
-                </p>
-                
-                <div className="w-full max-w-md relative shadow-lg rounded-xl">
-                  <div className="flex items-center bg-white rounded-xl border border-gray-200 p-1.5 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all">
-                    <Search className="w-5 h-5 text-gray-400 ml-3" />
-                    <input 
-                      type="text" 
-                      placeholder="어떤 서비스가 필요하신가요?" 
-                      className="w-full px-4 py-3 text-base outline-none bg-transparent placeholder:text-gray-400"
-                    />
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors whitespace-nowrap">
-                      검색
-                    </button>
+              {/* Left - 메인 히어로 */}
+              <div className="md:flex-[6] relative rounded-[14px] overflow-hidden flex items-center">
+                {/* 배경 이미지 */}
+                <img
+                  src="/images/hero/image.png"
+                  alt="비지터스 전문가"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* 검정 그라데이션 오버레이 - 왼쪽 진하게 → 오른쪽 투명 */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-10"></div>
+
+                {/* 텍스트 + 검색 */}
+                <div className="relative z-20 px-8 py-12 md:px-12 md:py-14 w-full">
+                  <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-[1.3] tracking-tight">
+                    집 고민,<br />전문가에게 맡기세요
+                  </h1>
+                  <p className="text-white/60 text-sm md:text-base mb-8 leading-relaxed">
+                    배관부터 청소까지, 검증된 전문가가 30분 내 출동해요.
+                  </p>
+
+                  <div className="max-w-md">
+                    <div className="flex items-center bg-white/95 rounded-[10px] p-1">
+                      <div className="flex items-center gap-2 pl-3 pr-3 border-r border-gray-200">
+                        <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                        <input
+                          type="text"
+                          placeholder="지역"
+                          className="w-20 py-2.5 text-sm outline-none bg-transparent placeholder:text-gray-400"
+                        />
+                      </div>
+                      <div className="flex items-center flex-1">
+                        <Search className="w-4 h-4 text-gray-400 ml-3 shrink-0" />
+                        <input
+                          type="text"
+                          placeholder="어떤 서비스가 필요하세요?"
+                          className="w-full px-3 py-2.5 text-sm outline-none bg-transparent placeholder:text-gray-400"
+                        />
+                      </div>
+                      <button className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-5 py-2.5 rounded-[10px] text-sm font-medium transition-colors whitespace-nowrap">
+                        검색
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Right - 긴급 출동 */}
+              <div className="md:flex-[3] bg-[#f7f7f7] rounded-[14px] overflow-hidden flex flex-col">
+                <div className="px-5 pt-5 pb-3">
+                  <h3 className="text-[#1f1b18] text-lg font-bold mb-1">새벽에도 출동해요</h3>
+                  <p className="text-[#1f1b18]/40 text-xs">지금 {AVAILABLE_COMPANIES.length}개 업체가 대기 중이에요</p>
+                </div>
+
+                <div className="flex-1 px-5 relative">
+                  {AVAILABLE_COMPANIES.map((company, i) => (
+                    <div
+                      key={company.id}
+                      className={`flex items-center justify-between py-3 ${i < AVAILABLE_COMPANIES.length - 1 ? 'border-b border-[#1f1b18]/[0.06]' : ''}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#1f1b18] text-sm font-bold">{company.name}</span>
+                        <span className="text-[#1f1b18]/30 text-xs">{company.specialty}</span>
+                      </div>
+                      <span className="text-[#1f1b18]/40 text-xs">{company.responseTime}</span>
+                    </div>
+                  ))}
+                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#f7f7f7] to-transparent pointer-events-none"></div>
+                </div>
+
+                <div className="relative z-10 px-4 pb-4">
+                  <button className="w-full bg-[#1f1b18] text-white py-3 rounded-[10px] font-bold text-sm hover:bg-[#111] transition-colors flex items-center justify-center gap-2">
+                    <Phone className="w-4 h-4" />
+                    긴급 출동 요청
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
@@ -221,7 +271,7 @@ export default function App() {
                 비지터스 파트너가 되어 더 많은 고객을 만나보세요.
               </p>
             </div>
-            <button className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors whitespace-nowrap w-full md:w-auto">
+            <button className="bg-white text-slate-900 px-8 py-4 rounded-[10px] font-bold hover:bg-gray-50 transition-colors whitespace-nowrap w-full md:w-auto">
               파트너스 가입하기
             </button>
           </div>
@@ -235,9 +285,9 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <img 
-                  src="https://img.icons8.com/color/96/worker-male--v1.png" 
+                  src="/images/logo/busylogo.png" 
                   alt="비지터스 로고" 
-                  className="w-6 h-6 grayscale opacity-80"
+                  className="h-6 w-auto grayscale opacity-80"
                 />
                 <h4 className="text-xl font-jua text-[#3b2313] tracking-wide pt-1">비지터스</h4>
               </div>
