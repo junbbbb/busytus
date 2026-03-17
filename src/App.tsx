@@ -143,7 +143,7 @@ export default function App() {
         {/* Hero Section - 모바일 */}
         <section className="md:hidden px-4 pt-8 pb-2">
           <h1 className="text-2xl font-bold text-[#1a1a1a] mb-2 leading-[1.3]">
-            집 고민,<br />전문가에게 맡기세요
+            집 문제, 딱 맞는<br />동네 업체 연결해 드려요
           </h1>
           <p className="text-[#1a1a1a]/50 text-sm mb-6">
             검증된 전문가가 30분 내 출동해요.
@@ -195,33 +195,33 @@ export default function App() {
               {/* Left - 메인 히어로 */}
               <div className="flex-[7] relative rounded-[14px] overflow-hidden flex items-center">
                 <img
-                  src="/images/hero/image.png"
+                  src="/images/hero/busyhero.png"
                   alt="비지터스 전문가"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-10"></div>
+                <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.18) 72%, transparent 86%)' }}></div>
 
-                <div className="relative z-20 px-12 py-14 w-full">
-                  <h1 className="text-4xl font-bold text-white mb-4 leading-[1.3] tracking-tight">
-                    집 고민,<br />전문가에게 맡기세요
+                <div className="relative z-20 px-10 py-12 w-full">
+                  <h1 className="text-4xl font-bold text-white mb-3 leading-[1.3] tracking-tight max-w-sm" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.7)' }}>
+                    집 문제, 딱 맞는<br />동네 업체 연결해 드려요
                   </h1>
-                  <p className="text-white/60 text-base mb-8 leading-relaxed">
+                  <p className="text-white/85 text-sm mb-6 leading-relaxed max-w-xs" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.65)' }}>
                     배관부터 청소까지, 검증된 전문가가 30분 내 출동해요.
                   </p>
 
-                  <div className="max-w-lg">
-                    <div className="flex items-center bg-white rounded-[10px] p-1.5 shadow-lg">
-                      <div className="flex items-center gap-2 pl-3 pr-3 border-r border-gray-200/80">
+                  <div className="max-w-xl">
+                    <div className="flex items-center bg-white rounded-full p-2 shadow-xl">
+                      <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
                         <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                         <input
                           type="text"
                           placeholder="지역"
                           aria-label="지역 검색"
-                          className="w-24 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
+                          className="w-20 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
                         />
                       </div>
                       <div className="flex items-center flex-1">
-                        <Search className="w-4 h-4 text-gray-400 ml-3 shrink-0" />
+                        <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
                         <input
                           type="text"
                           placeholder="어떤 서비스가 필요하세요?"
@@ -229,12 +229,12 @@ export default function App() {
                           className="w-full px-3 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
                         />
                       </div>
-                      <button aria-label="서비스 검색하기" className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-6 py-3 rounded-[8px] text-sm font-semibold transition-colors whitespace-nowrap focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:outline-none">
+                      <button aria-label="서비스 검색하기" className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-7 py-3 rounded-full text-sm font-semibold transition-colors whitespace-nowrap focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:outline-none">
                         검색
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-4 mt-5 text-white/45 text-xs">
+                    <div className="flex items-center gap-4 mt-5 text-white/75 text-xs" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.65)' }}>
                       <span className="flex items-center gap-1">
                         <CheckCircle className="w-3.5 h-3.5" />
                         2,000+ 검증된 전문가
