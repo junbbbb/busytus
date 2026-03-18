@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Search,
   Menu,
@@ -22,6 +23,148 @@ import {
   HouseIcon,
   GridIcon
 } from './components/CategoryIcons';
+
+/* ─── 지역 데이터 ─── */
+const LOCATION_DATA: Record<string, Record<string, string[]>> = {
+  '서울': {
+    '강남구': ['압구정동', '청담동', '삼성동', '역삼동', '논현동', '개포동'],
+    '강동구': ['천호동', '암사동', '길동', '명일동'],
+    '강서구': ['화곡동', '방화동', '마곡동', '가양동'],
+    '관악구': ['신림동', '봉천동', '남현동'],
+    '광진구': ['자양동', '구의동', '광장동'],
+    '마포구': ['합정동', '망원동', '상암동', '공덕동'],
+    '서초구': ['반포동', '방배동', '서초동', '잠원동'],
+    '성동구': ['성수동', '왕십리동', '금호동'],
+    '송파구': ['잠실동', '방이동', '거여동', '문정동'],
+    '용산구': ['이태원동', '한남동', '후암동'],
+    '영등포구': ['여의도동', '당산동', '문래동'],
+    '은평구': ['불광동', '녹번동', '응암동'],
+  },
+  '부산': {
+    '해운대구': ['우동', '중동', '좌동', '재송동'],
+    '수영구': ['광안동', '민락동', '수영동'],
+    '남구': ['대연동', '용호동', '문현동'],
+    '동래구': ['온천동', '사직동', '낙민동'],
+    '부산진구': ['전포동', '부전동', '범천동'],
+  },
+  '인천': {
+    '남동구': ['구월동', '간석동', '만수동'],
+    '연수구': ['송도동', '연수동', '청학동'],
+    '부평구': ['부평동', '십정동', '산곡동'],
+    '미추홀구': ['주안동', '숭의동', '용현동'],
+  },
+  '경기': {
+    '수원시': ['영통동', '인계동', '팔달동', '권선동'],
+    '성남시': ['분당동', '정자동', '야탑동', '판교동'],
+    '용인시': ['수지구', '기흥구', '처인구'],
+    '고양시': ['일산동구', '일산서구', '덕양구'],
+    '화성시': ['동탄동', '향남읍', '봉담읍'],
+  },
+};
+
+/* ─── 지역 선택 드롭다운 (3컬럼, fixed 포지션) ─── */
+function LocationPicker({ value, onChange, dark = false }: {
+  value: string;
+  onChange: (v: string) => void;
+  dark?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [selectedCity, setSelectedCity] = useState(Object.keys(LOCATION_DATA)[0]);
+  const [selectedGu, setSelectedGu] = useState('');
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const openPicker = () => {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const isMobile = window.innerWidth < 768;
+      const panelWidth = isMobile ? window.innerWidth - 32 : 480;
+      const left = isMobile ? 16 : Math.min(rect.left, window.innerWidth - panelWidth - 16);
+      setPos({ top: rect.bottom + 10, left });
+    }
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const handle = (e: MouseEvent) => {
+      if (
+        triggerRef.current && !triggerRef.current.contains(e.target as Node) &&
+        panelRef.current && !panelRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handle);
+    return () => document.removeEventListener('mousedown', handle);
+  }, [open]);
+
+  const iconCls = dark ? 'text-white/40' : 'text-gray-400';
+  const textCls = dark ? 'text-white' : 'text-[#1a1a1a]';
+  const placeholderCls = dark ? 'text-white/30' : 'text-gray-400';
+  const gus = Object.keys(LOCATION_DATA[selectedCity] || {});
+  const dongs = selectedGu ? (LOCATION_DATA[selectedCity]?.[selectedGu] || []) : [];
+
+  return (
+    <>
+      <div ref={triggerRef} className="flex items-center gap-2 cursor-pointer" onClick={openPicker}>
+        <MapPin className={`w-4 h-4 shrink-0 ${iconCls}`} />
+        <span className={`text-sm w-20 py-3 select-none truncate ${value ? textCls : placeholderCls}`}>
+          {value || '지역'}
+        </span>
+      </div>
+
+      {open && ReactDOM.createPortal(
+        <div
+          ref={panelRef}
+          className="bg-white rounded-[16px] shadow-2xl border border-gray-100 overflow-hidden"
+          style={{ position: 'fixed', top: pos.top, left: pos.left, width: window.innerWidth < 768 ? window.innerWidth - 32 : 480, zIndex: 9999 }}
+        >
+          <div className="px-5 py-3.5 border-b border-gray-100">
+            <span className="text-sm font-semibold text-[#1a1a1a]">지역 선택</span>
+          </div>
+          <div className="flex" style={{ height: 240 }}>
+            {/* 시/도 */}
+            <div className="w-28 border-r border-gray-100 overflow-y-auto py-1 shrink-0">
+              {Object.keys(LOCATION_DATA).map(city => (
+                <button key={city}
+                  onClick={() => { setSelectedCity(city); setSelectedGu(''); }}
+                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${selectedCity === city ? 'bg-[#FEE500]/20 text-[#1a1a1a] font-semibold' : 'text-[#1a1a1a]/70 hover:bg-[#f7f7f7]'}`}>
+                  {city}
+                </button>
+              ))}
+            </div>
+            {/* 구 */}
+            <div className="w-40 border-r border-gray-100 overflow-y-auto py-1 shrink-0">
+              {gus.map(gu => (
+                <button key={gu}
+                  onClick={() => setSelectedGu(gu)}
+                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${selectedGu === gu ? 'bg-[#FEE500]/20 text-[#1a1a1a] font-semibold' : 'text-[#1a1a1a]/70 hover:bg-[#f7f7f7]'}`}>
+                  {gu}
+                </button>
+              ))}
+            </div>
+            {/* 동 */}
+            <div className="flex-1 overflow-y-auto py-1">
+              {dongs.length === 0
+                ? <p className="px-4 py-3 text-sm text-[#1a1a1a]/30">구를 선택하세요</p>
+                : dongs.map(dong => (
+                  <button key={dong}
+                    onClick={() => { onChange(dong); setOpen(false); }}
+                    className="w-full text-left px-4 py-2.5 text-sm text-[#1a1a1a]/70 hover:bg-[#f7f7f7] hover:text-[#1a1a1a] transition-colors">
+                    {dong}
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </>
+  );
+}
 
 const CATEGORIES = [
   { id: 1, name: '좌변기 막힘', icon: PlungerIcon },
@@ -85,6 +228,7 @@ const POPULAR_SERVICES = [
    Design 1 Hero — 현재 디자인 (이미지 + 검색 내장)
 ───────────────────────────────────────── */
 function HeroDesign1() {
+  const [location, setLocation] = useState('');
   return (
     <>
       {/* 모바일 */}
@@ -97,14 +241,8 @@ function HeroDesign1() {
         </p>
 
         <div className="bg-[#f7f7f7] rounded-[14px] p-3 mb-3">
-          <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px] mb-2">
-            <MapPin className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
-            <input
-              type="text"
-              placeholder="지역을 입력하세요"
-              aria-label="지역 검색"
-              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
-            />
+          <div className="px-3 py-1 bg-white rounded-[10px] mb-2">
+            <LocationPicker value={location} onChange={setLocation} />
           </div>
           <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px]">
             <Search className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
@@ -155,14 +293,8 @@ function HeroDesign1() {
 
                 <div className="max-w-xl">
                   <div className="flex items-center bg-white rounded-full p-2 shadow-xl">
-                    <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
-                      <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-                      <input
-                        type="text"
-                        placeholder="지역"
-                        aria-label="지역 검색"
-                        className="w-20 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
-                      />
+                    <div className="pl-3 pr-4 border-r border-gray-200">
+                      <LocationPicker value={location} onChange={setLocation} />
                     </div>
                     <div className="flex items-center flex-1">
                       <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
@@ -235,6 +367,7 @@ function HeroDesign1() {
    Design 3 Hero — D1에서 왼쪽 카드 제거 (full-bleed 이미지)
 ───────────────────────────────────────── */
 function HeroDesign3() {
+  const [location, setLocation] = useState('');
   return (
     <>
       {/* 모바일 — D1과 동일 */}
@@ -244,10 +377,8 @@ function HeroDesign3() {
         </h1>
         <p className="text-[#1a1a1a]/50 text-sm mb-6">검증된 전문가가 30분 내 출동해요.</p>
         <div className="bg-[#f7f7f7] rounded-[14px] p-3 mb-3">
-          <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px] mb-2">
-            <MapPin className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
-            <input type="text" placeholder="지역을 입력하세요" aria-label="지역 검색"
-              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30" />
+          <div className="px-3 py-1 bg-white rounded-[10px] mb-2">
+            <LocationPicker value={location} onChange={setLocation} />
           </div>
           <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px]">
             <Search className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
@@ -282,10 +413,8 @@ function HeroDesign3() {
             </p>
             <div className="max-w-xl">
               <div className="flex items-center bg-white border border-gray-200 rounded-full p-2 shadow-sm">
-                <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
-                  <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-                  <input type="text" placeholder="지역" aria-label="지역 검색"
-                    className="w-20 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400" />
+                <div className="pl-3 pr-4 border-r border-gray-200">
+                  <LocationPicker value={location} onChange={setLocation} />
                 </div>
                 <div className="flex items-center flex-1">
                   <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
@@ -347,6 +476,7 @@ const D2_SERVICES = [
 ];
 
 function HeroDesign2() {
+  const [location, setLocation] = useState('');
   return (
     <>
       {/* 모바일 */}
@@ -360,14 +490,8 @@ function HeroDesign2() {
 
         {/* 검색 */}
         <div className="space-y-2 mb-6">
-          <div className="flex items-center gap-2 px-4 py-3.5 bg-[#f7f7f7] rounded-[12px]">
-            <MapPin className="w-4 h-4 text-[#1a1a1a]/40 shrink-0" />
-            <input
-              type="text"
-              placeholder="지역을 입력하세요"
-              aria-label="지역 검색"
-              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/40 text-[#1a1a1a]"
-            />
+          <div className="px-4 py-1 bg-[#f7f7f7] rounded-[12px]">
+            <LocationPicker value={location} onChange={setLocation} />
           </div>
           <div className="flex items-center gap-2 px-4 py-3.5 bg-[#f7f7f7] rounded-[12px]">
             <Search className="w-4 h-4 text-[#1a1a1a]/40 shrink-0" />
@@ -413,14 +537,8 @@ function HeroDesign2() {
               </p>
               {/* 검색바 */}
               <div className="flex items-center bg-white rounded-[14px] p-2 shadow-sm border border-gray-200/80 max-w-xl">
-                <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
-                  <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="지역"
-                    aria-label="지역 검색"
-                    className="w-20 py-2.5 text-sm outline-none bg-transparent placeholder:text-gray-400 text-[#1a1a1a]"
-                  />
+                <div className="pl-3 pr-4 border-r border-gray-200">
+                  <LocationPicker value={location} onChange={setLocation} />
                 </div>
                 <div className="flex items-center flex-1">
                   <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
