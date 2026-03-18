@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Search,
   Menu,
@@ -81,7 +81,420 @@ const POPULAR_SERVICES = [
   }
 ];
 
+/* ─────────────────────────────────────────
+   Design 1 Hero — 현재 디자인 (이미지 + 검색 내장)
+───────────────────────────────────────── */
+function HeroDesign1() {
+  return (
+    <>
+      {/* 모바일 */}
+      <section className="md:hidden px-4 pt-8 pb-2">
+        <h1 className="text-2xl font-bold text-[#1a1a1a] mb-2 leading-[1.3]">
+          집 문제, 딱 맞는<br />동네 업체 연결해 드려요
+        </h1>
+        <p className="text-[#1a1a1a]/50 text-sm mb-6">
+          검증된 전문가가 30분 내 출동해요.
+        </p>
+
+        <div className="bg-[#f7f7f7] rounded-[14px] p-3 mb-3">
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px] mb-2">
+            <MapPin className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
+            <input
+              type="text"
+              placeholder="지역을 입력하세요"
+              aria-label="지역 검색"
+              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
+            />
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px]">
+            <Search className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
+            <input
+              type="text"
+              placeholder="어떤 서비스가 필요하세요?"
+              aria-label="서비스 검색"
+              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
+            />
+          </div>
+          <button aria-label="서비스 검색하기" className="w-full bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] py-3 rounded-[10px] text-sm font-bold mt-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:outline-none">
+            검색
+          </button>
+        </div>
+
+        <div className="flex items-center justify-between bg-[#f7f7f7] rounded-[14px] px-5 py-4">
+          <div>
+            <h3 className="text-[#1a1a1a] text-sm font-bold">저녁에도 출동해요</h3>
+            <p className="text-[#1a1a1a]/50 text-xs mt-0.5">지금 {AVAILABLE_COMPANIES.length}개 업체 대기 중</p>
+          </div>
+          <a href="#" className="text-[#1a1a1a]/60 text-xs font-medium flex items-center gap-0.5 hover:text-[#1a1a1a] transition-colors shrink-0">
+            출동 가능 업체 보기
+            <ChevronRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </section>
+
+      {/* 데스크톱 */}
+      <section className="hidden md:block pt-8 pb-12">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex flex-row gap-4 min-h-[400px]">
+
+            <div className="flex-[7] relative rounded-[14px] overflow-hidden flex items-center">
+              <img
+                src="/images/hero/busyhero.png"
+                alt="비지터스 전문가"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.18) 72%, transparent 86%)' }}></div>
+
+              <div className="relative z-20 px-10 py-12 w-full">
+                <h1 className="text-4xl font-bold text-white mb-3 leading-[1.3] tracking-tight max-w-sm" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.7)' }}>
+                  집 문제, 딱 맞는<br />동네 업체 연결해 드려요
+                </h1>
+                <p className="text-white/85 text-sm mb-6 leading-relaxed max-w-xs" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.65)' }}>
+                  배관부터 청소까지, 검증된 전문가가 30분 내 출동해요.
+                </p>
+
+                <div className="max-w-xl">
+                  <div className="flex items-center bg-white rounded-full p-2 shadow-xl">
+                    <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
+                      <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="지역"
+                        aria-label="지역 검색"
+                        className="w-20 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
+                      />
+                    </div>
+                    <div className="flex items-center flex-1">
+                      <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="어떤 서비스가 필요하세요?"
+                        aria-label="서비스 검색"
+                        className="w-full px-3 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
+                      />
+                    </div>
+                    <button aria-label="서비스 검색하기" className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-7 py-3 rounded-full text-sm font-semibold transition-colors whitespace-nowrap focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:outline-none">
+                      검색
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-4 mt-5 text-white/75 text-xs" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.65)' }}>
+                    <span className="flex items-center gap-1">
+                      <CheckCircle className="w-3.5 h-3.5" />
+                      2,000+ 검증된 전문가
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5" />
+                      평균 별점 4.8
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      30분 내 출동
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-[3] bg-[#f7f7f7] rounded-[14px] overflow-hidden flex flex-col">
+              <div className="px-5 pt-5 pb-3">
+                <h3 className="text-[#1f1b18] text-lg font-bold mb-1">저녁에도 출동해요</h3>
+                <p className="text-[#1f1b18]/50 text-xs">지금 {AVAILABLE_COMPANIES.length}개 업체가 대기 중이에요</p>
+              </div>
+
+              <div className="flex-1 px-5 relative">
+                {AVAILABLE_COMPANIES.map((company, i) => (
+                  <div
+                    key={company.id}
+                    className={`flex items-center justify-between py-3 ${i < AVAILABLE_COMPANIES.length - 1 ? 'border-b border-[#1f1b18]/[0.06]' : ''}`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#1f1b18] text-sm font-bold">{company.name}</span>
+                      <span className="text-[#1f1b18]/40 text-xs">{company.specialty}</span>
+                    </div>
+                    <span className="text-[#1f1b18]/50 text-xs">{company.responseTime}</span>
+                  </div>
+                ))}
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#f7f7f7] to-transparent pointer-events-none"></div>
+              </div>
+
+              <a href="#" className="relative z-10 px-5 pb-5 pt-1 flex justify-center items-center gap-0.5 text-[#1f1b18]/50 text-sm font-medium hover:text-[#1f1b18] transition-colors">
+                출동 가능 업체 더보기
+                <ChevronRight className="w-4 h-4" />
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ─────────────────────────────────────────
+   Design 3 Hero — D1에서 왼쪽 카드 제거 (full-bleed 이미지)
+───────────────────────────────────────── */
+function HeroDesign3() {
+  return (
+    <>
+      {/* 모바일 — D1과 동일 */}
+      <section className="md:hidden px-4 pt-8 pb-2">
+        <h1 className="text-2xl font-bold text-[#1a1a1a] mb-2 leading-[1.3]">
+          집 문제, 딱 맞는<br />동네 업체 연결해 드려요
+        </h1>
+        <p className="text-[#1a1a1a]/50 text-sm mb-6">검증된 전문가가 30분 내 출동해요.</p>
+        <div className="bg-[#f7f7f7] rounded-[14px] p-3 mb-3">
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px] mb-2">
+            <MapPin className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
+            <input type="text" placeholder="지역을 입력하세요" aria-label="지역 검색"
+              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30" />
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px]">
+            <Search className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
+            <input type="text" placeholder="어떤 서비스가 필요하세요?" aria-label="서비스 검색"
+              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30" />
+          </div>
+          <button className="w-full bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] py-3 rounded-[10px] text-sm font-bold mt-2 transition-colors">
+            검색
+          </button>
+        </div>
+        <div className="flex items-center justify-between bg-[#f7f7f7] rounded-[14px] px-5 py-4">
+          <div>
+            <h3 className="text-[#1a1a1a] text-sm font-bold">저녁에도 출동해요</h3>
+            <p className="text-[#1a1a1a]/50 text-xs mt-0.5">지금 {AVAILABLE_COMPANIES.length}개 업체 대기 중</p>
+          </div>
+          <a href="#" className="text-[#1a1a1a]/60 text-xs font-medium flex items-center gap-0.5 hover:text-[#1a1a1a] transition-colors">
+            출동 가능 업체 보기 <ChevronRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </section>
+
+      {/* 데스크톱 — 배경 없음, 카드 없음 */}
+      <section className="hidden md:block min-h-[420px] flex items-center">
+        <div className="w-full max-w-5xl mx-auto px-8 py-14 flex gap-6 items-center">
+          {/* 왼쪽: 텍스트 + 검색 */}
+          <div className="flex-[7]">
+            <h1 className="text-4xl font-bold text-[#1a1a1a] mb-3 leading-[1.3] tracking-tight max-w-sm">
+              집 문제, 딱 맞는<br />동네 업체 연결해 드려요
+            </h1>
+            <p className="text-[#1a1a1a]/60 text-sm mb-6 leading-relaxed max-w-xs">
+              배관부터 청소까지, 검증된 전문가가 30분 내 출동해요.
+            </p>
+            <div className="max-w-xl">
+              <div className="flex items-center bg-white border border-gray-200 rounded-full p-2 shadow-sm">
+                <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
+                  <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                  <input type="text" placeholder="지역" aria-label="지역 검색"
+                    className="w-20 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400" />
+                </div>
+                <div className="flex items-center flex-1">
+                  <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
+                  <input type="text" placeholder="어떤 서비스가 필요하세요?" aria-label="서비스 검색"
+                    className="w-full px-3 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400" />
+                </div>
+                <button className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-7 py-3 rounded-full text-sm font-semibold transition-colors whitespace-nowrap">
+                  검색
+                </button>
+              </div>
+              <div className="flex items-center gap-4 mt-5 text-[#1a1a1a]/50 text-xs">
+                <span className="flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />2,000+ 검증된 전문가</span>
+                <span className="flex items-center gap-1"><Star className="w-3.5 h-3.5" />평균 별점 4.8</span>
+                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />30분 내 출동</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 오른쪽: 긴급 출동 카드 */}
+          <div className="flex-[3] bg-[#f7f7f7] rounded-[14px] overflow-hidden flex flex-col self-stretch">
+            <div className="px-5 pt-5 pb-3">
+              <h3 className="text-[#1f1b18] text-lg font-bold mb-1">저녁에도 출동해요</h3>
+              <p className="text-[#1f1b18]/50 text-xs">지금 {AVAILABLE_COMPANIES.length}개 업체가 대기 중이에요</p>
+            </div>
+            <div className="flex-1 px-5 relative">
+              {AVAILABLE_COMPANIES.map((company, i) => (
+                <div key={company.id} className={`flex items-center justify-between py-3 ${i < AVAILABLE_COMPANIES.length - 1 ? 'border-b border-[#1f1b18]/[0.06]' : ''}`}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#1f1b18] text-sm font-bold">{company.name}</span>
+                    <span className="text-[#1f1b18]/40 text-xs">{company.specialty}</span>
+                  </div>
+                  <span className="text-[#1f1b18]/50 text-xs">{company.responseTime}</span>
+                </div>
+              ))}
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f7f7f7] to-transparent pointer-events-none"></div>
+            </div>
+            <a href="#" className="relative z-10 px-5 pb-5 pt-1 flex justify-center items-center gap-0.5 text-[#1f1b18]/50 text-sm font-medium hover:text-[#1f1b18] transition-colors">
+              출동 가능 업체 더보기 <ChevronRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ─────────────────────────────────────────
+   Design 2 Hero — 검색바 중앙 + 서비스 목록
+───────────────────────────────────────── */
+const D2_SERVICES = [
+  { id: 1, icon: PlungerIcon, name: '하수구 막힘' },
+  { id: 2, icon: WrenchIcon,  name: '배관 수리' },
+  { id: 3, icon: ACIcon,      name: '에어컨 청소' },
+  { id: 4, icon: BroomIcon,   name: '입주 청소' },
+  { id: 5, icon: LeakIcon,    name: '누수 탐지' },
+  { id: 6, icon: RollerIcon,  name: '도배/장판' },
+  { id: 7, icon: HouseIcon,   name: '이사 청소' },
+  { id: 8, icon: GridIcon,    name: '전체보기' },
+];
+
+function HeroDesign2() {
+  return (
+    <>
+      {/* 모바일 */}
+      <section className="md:hidden px-5 pt-10 pb-8">
+        <h1 className="text-2xl font-bold text-[#1a1a1a] mb-1.5 leading-[1.3]">
+          집 문제, 딱 맞는<br />동네 업체 연결해 드려요
+        </h1>
+        <p className="text-[#1a1a1a]/60 text-sm mb-7">
+          검증된 전문가가 30분 내 출동해요.
+        </p>
+
+        {/* 검색 */}
+        <div className="space-y-2 mb-6">
+          <div className="flex items-center gap-2 px-4 py-3.5 bg-[#f7f7f7] rounded-[12px]">
+            <MapPin className="w-4 h-4 text-[#1a1a1a]/40 shrink-0" />
+            <input
+              type="text"
+              placeholder="지역을 입력하세요"
+              aria-label="지역 검색"
+              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/40 text-[#1a1a1a]"
+            />
+          </div>
+          <div className="flex items-center gap-2 px-4 py-3.5 bg-[#f7f7f7] rounded-[12px]">
+            <Search className="w-4 h-4 text-[#1a1a1a]/40 shrink-0" />
+            <input
+              type="text"
+              placeholder="어떤 서비스가 필요하세요?"
+              aria-label="서비스 검색"
+              className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/40 text-[#1a1a1a]"
+            />
+          </div>
+          <button className="w-full bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] py-3.5 rounded-[12px] text-sm font-bold transition-colors">
+            검색
+          </button>
+        </div>
+
+        {/* 서비스 목록 */}
+        <div className="grid grid-cols-4 gap-3">
+          {D2_SERVICES.map((s) => (
+            <button key={s.id} className="flex flex-col items-center gap-2 group">
+              <div className="w-14 h-14 rounded-[14px] bg-[#f7f7f7] flex items-center justify-center group-hover:bg-[#efefef] transition-colors">
+                <s.icon />
+              </div>
+              <span className="text-[#1a1a1a]/65 text-xs text-center leading-tight">{s.name}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* 데스크톱 */}
+      <section className="hidden md:block pt-6 pb-2">
+        <div className="max-w-5xl mx-auto px-4">
+          {/* 카드 */}
+          <div className="bg-[#f7f7f7] rounded-[20px] overflow-hidden">
+          {/* 상단: 텍스트 + 사람 이미지 */}
+          <div className="flex items-end gap-0 min-h-[420px]">
+            {/* 왼쪽: 헤드라인 + 검색바 */}
+            <div className="flex-1 pt-16 pb-14 pl-10">
+              <h1 className="text-[2.75rem] font-bold text-[#1a1a1a] mb-4 leading-[1.15] tracking-tight">
+                집 문제, 딱 맞는<br />동네 업체 연결해 드려요
+              </h1>
+              <p className="text-[#1a1a1a]/75 text-base mb-8">
+                배관부터 청소까지, 검증된 전문가가 30분 내 출동해요.
+              </p>
+              {/* 검색바 */}
+              <div className="flex items-center bg-white rounded-[14px] p-2 shadow-sm border border-gray-200/80 max-w-xl">
+                <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
+                  <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                  <input
+                    type="text"
+                    placeholder="지역"
+                    aria-label="지역 검색"
+                    className="w-20 py-2.5 text-sm outline-none bg-transparent placeholder:text-gray-400 text-[#1a1a1a]"
+                  />
+                </div>
+                <div className="flex items-center flex-1">
+                  <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
+                  <input
+                    type="text"
+                    placeholder="어떤 서비스가 필요하세요?"
+                    aria-label="서비스 검색"
+                    className="w-full px-3 py-2.5 text-sm outline-none bg-transparent placeholder:text-gray-400 text-[#1a1a1a]"
+                  />
+                </div>
+                <button className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-6 py-2.5 rounded-[10px] text-sm font-semibold transition-colors whitespace-nowrap">
+                  검색
+                </button>
+              </div>
+              {/* 신뢰 지표 */}
+              <div className="flex items-center gap-4 mt-5 text-[#1a1a1a]/60 text-xs">
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5" />2,000+ 검증된 전문가</span>
+                <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5" />평균 별점 4.8</span>
+                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />30분 내 출동</span>
+              </div>
+            </div>
+
+            {/* 오른쪽: 사람 이미지 */}
+            <div className="w-72 shrink-0 self-end pt-10">
+              <img
+                src="/images/hero/heroman.png"
+                alt="비지터스 전문가"
+                className="w-full h-auto max-h-[360px] object-contain object-bottom"
+              />
+            </div>
+          </div>
+          </div>{/* /카드 */}
+
+          {/* 서비스 목록 — 카드 밖 */}
+          <div className="py-8 px-2">
+            <div className="grid grid-cols-8 gap-4">
+              {D2_SERVICES.map((s) => (
+                <button key={s.id} className="flex flex-col items-center gap-3 group">
+                  <div className="w-16 h-16 rounded-2xl bg-[#f7f7f7] flex items-center justify-center group-hover:bg-[#efefef] transition-colors">
+                    <s.icon />
+                  </div>
+                  <span className="text-[#1a1a1a] text-sm font-medium text-center leading-tight">{s.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ─────────────────────────────────────────
+   Design Switcher (개발용 토글)
+───────────────────────────────────────── */
+function DesignSwitcher({ design, setDesign }: { design: 1 | 2 | 3; setDesign: (d: 1 | 2 | 3) => void }) {
+  return (
+    <div className="flex items-center gap-1 bg-[#f0f0f0] rounded-full p-1">
+      {([1, 2, 3] as const).map((d) => (
+        <button
+          key={d}
+          onClick={() => setDesign(d)}
+          className={`text-xs font-semibold px-3 py-1 rounded-full transition-all ${design === d ? 'bg-[#1a1a1a] text-white' : 'text-[#1a1a1a]/50 hover:text-[#1a1a1a]'}`}
+        >
+          D{d}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function App() {
+  const [design, setDesign] = useState<1 | 2 | 3>(1);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header - 모바일 */}
@@ -91,7 +504,8 @@ export default function App() {
             <img src="/images/logo/busylogo.png" alt="비지터스" className="h-7 w-auto" />
             <span className="text-lg font-jua text-[#3b2313] tracking-wide pt-0.5">비지터스</span>
           </a>
-          <div className="flex items-center gap-0.5">
+          <div className="flex items-center gap-1.5">
+            <DesignSwitcher design={design} setDesign={setDesign} />
             <button className="flex items-center gap-0.5 text-xs font-semibold text-[#1a1a1a] px-2.5 py-1.5 rounded-full bg-[#f7f7f7]">
               <MapPin className="w-3.5 h-3.5 text-[#1a1a1a]/40" />
               강남구
@@ -128,8 +542,9 @@ export default function App() {
               <a href="#" className="hover:text-[#1a1a1a] transition-colors">견적요청</a>
             </nav>
           </div>
-          <div className="flex items-center gap-3 text-gray-500">
-            <button className="p-2 hover:bg-gray-50 rounded-full transition-colors">
+          <div className="flex items-center gap-3">
+            <DesignSwitcher design={design} setDesign={setDesign} />
+            <button className="p-2 hover:bg-gray-50 rounded-full transition-colors text-gray-500">
               <Bell className="w-5 h-5" />
             </button>
             <button className="text-sm font-medium text-[#1a1a1a] hover:bg-gray-50 px-3 py-2 rounded-[10px] transition-colors">
@@ -140,165 +555,24 @@ export default function App() {
       </header>
 
       <main>
-        {/* Hero Section - 모바일 */}
-        <section className="md:hidden px-4 pt-8 pb-2">
-          <h1 className="text-2xl font-bold text-[#1a1a1a] mb-2 leading-[1.3]">
-            집 문제, 딱 맞는<br />동네 업체 연결해 드려요
-          </h1>
-          <p className="text-[#1a1a1a]/50 text-sm mb-6">
-            검증된 전문가가 30분 내 출동해요.
-          </p>
+        {design === 1 ? <HeroDesign1 /> : design === 2 ? <HeroDesign2 /> : <HeroDesign3 />}
 
-          {/* 검색 - 세로 스택 */}
-          <div className="bg-[#f7f7f7] rounded-[14px] p-3 mb-3">
-            <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px] mb-2">
-              <MapPin className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
-              <input
-                type="text"
-                placeholder="지역을 입력하세요"
-                aria-label="지역 검색"
-                className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
-              />
-            </div>
-            <div className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-[10px]">
-              <Search className="w-4 h-4 text-[#1a1a1a]/30 shrink-0" />
-              <input
-                type="text"
-                placeholder="어떤 서비스가 필요하세요?"
-                aria-label="서비스 검색"
-                className="w-full text-sm outline-none bg-transparent placeholder:text-[#1a1a1a]/30 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
-              />
-            </div>
-            <button aria-label="서비스 검색하기" className="w-full bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] py-3 rounded-[10px] text-sm font-bold mt-2 transition-colors focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:outline-none">
-              검색
-            </button>
-          </div>
-
-          {/* 긴급 출동 - 컴팩트 */}
-          <div className="flex items-center justify-between bg-[#f7f7f7] rounded-[14px] px-5 py-4">
-            <div>
-              <h3 className="text-[#1a1a1a] text-sm font-bold">새벽에도 출동해요</h3>
-              <p className="text-[#1a1a1a]/50 text-xs mt-0.5">지금 {AVAILABLE_COMPANIES.length}개 업체 대기 중</p>
-            </div>
-            <a href="#" className="text-[#1a1a1a]/60 text-xs font-medium flex items-center gap-0.5 hover:text-[#1a1a1a] transition-colors shrink-0">
-              출동 가능 업체 보기
-              <ChevronRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        </section>
-
-        {/* Hero Section - 데스크톱 */}
-        <section className="hidden md:block pt-8 pb-12">
-          <div className="max-w-5xl mx-auto px-4">
-            <div className="flex flex-row gap-4 min-h-[400px]">
-
-              {/* Left - 메인 히어로 */}
-              <div className="flex-[7] relative rounded-[14px] overflow-hidden flex items-center">
-                <img
-                  src="/images/hero/busyhero.png"
-                  alt="비지터스 전문가"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.18) 72%, transparent 86%)' }}></div>
-
-                <div className="relative z-20 px-10 py-12 w-full">
-                  <h1 className="text-4xl font-bold text-white mb-3 leading-[1.3] tracking-tight max-w-sm" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.7)' }}>
-                    집 문제, 딱 맞는<br />동네 업체 연결해 드려요
-                  </h1>
-                  <p className="text-white/85 text-sm mb-6 leading-relaxed max-w-xs" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.65)' }}>
-                    배관부터 청소까지, 검증된 전문가가 30분 내 출동해요.
-                  </p>
-
-                  <div className="max-w-xl">
-                    <div className="flex items-center bg-white rounded-full p-2 shadow-xl">
-                      <div className="flex items-center gap-2 pl-3 pr-4 border-r border-gray-200">
-                        <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-                        <input
-                          type="text"
-                          placeholder="지역"
-                          aria-label="지역 검색"
-                          className="w-20 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
-                        />
-                      </div>
-                      <div className="flex items-center flex-1">
-                        <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
-                        <input
-                          type="text"
-                          placeholder="어떤 서비스가 필요하세요?"
-                          aria-label="서비스 검색"
-                          className="w-full px-3 py-3 text-sm outline-none bg-transparent placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:rounded-md"
-                        />
-                      </div>
-                      <button aria-label="서비스 검색하기" className="bg-[#FEE500] hover:bg-[#F5DC00] text-[#1a1a1a] px-7 py-3 rounded-full text-sm font-semibold transition-colors whitespace-nowrap focus-visible:ring-2 focus-visible:ring-[#FEE500]/50 focus-visible:outline-none">
-                        검색
-                      </button>
-                    </div>
-
-                    <div className="flex items-center gap-4 mt-5 text-white/75 text-xs" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.65)' }}>
-                      <span className="flex items-center gap-1">
-                        <CheckCircle className="w-3.5 h-3.5" />
-                        2,000+ 검증된 전문가
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5" />
-                        평균 별점 4.8
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" />
-                        30분 내 출동
-                      </span>
-                    </div>
+        {/* Categories — D1만 표시 (D2는 hero 안에 포함) */}
+        {(design === 1 || design === 3) && (
+          <section className="py-8 md:py-12 max-w-5xl mx-auto px-4">
+            <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-6">어떤 서비스가 필요하신가요?</h2>
+            <div className="grid grid-cols-4 md:grid-cols-8 gap-y-6 gap-x-4">
+              {CATEGORIES.map((category) => (
+                <button key={category.id} className="flex flex-col items-center gap-3 group">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-[#F6F6F6] group-hover:scale-105 transition-transform duration-200">
+                    <category.icon />
                   </div>
-                </div>
-              </div>
-
-              {/* Right - 긴급 출동 */}
-              <div className="flex-[3] bg-[#f7f7f7] rounded-[14px] overflow-hidden flex flex-col">
-                <div className="px-5 pt-5 pb-3">
-                  <h3 className="text-[#1f1b18] text-lg font-bold mb-1">새벽에도 출동해요</h3>
-                  <p className="text-[#1f1b18]/50 text-xs">지금 {AVAILABLE_COMPANIES.length}개 업체가 대기 중이에요</p>
-                </div>
-
-                <div className="flex-1 px-5 relative">
-                  {AVAILABLE_COMPANIES.map((company, i) => (
-                    <div
-                      key={company.id}
-                      className={`flex items-center justify-between py-3 ${i < AVAILABLE_COMPANIES.length - 1 ? 'border-b border-[#1f1b18]/[0.06]' : ''}`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-[#1f1b18] text-sm font-bold">{company.name}</span>
-                        <span className="text-[#1f1b18]/40 text-xs">{company.specialty}</span>
-                      </div>
-                      <span className="text-[#1f1b18]/50 text-xs">{company.responseTime}</span>
-                    </div>
-                  ))}
-                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#f7f7f7] to-transparent pointer-events-none"></div>
-                </div>
-
-                <a href="#" className="relative z-10 px-5 pb-5 pt-1 flex justify-center items-center gap-0.5 text-[#1f1b18]/50 text-sm font-medium hover:text-[#1f1b18] transition-colors">
-                  출동 가능 업체 더보기
-                  <ChevronRight className="w-4 h-4" />
-                </a>
-              </div>
-
+                  <span className="text-sm font-medium text-gray-700">{category.name}</span>
+                </button>
+              ))}
             </div>
-          </div>
-        </section>
-
-        {/* Categories */}
-        <section className="py-8 md:py-12 max-w-5xl mx-auto px-4">
-          <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-6">어떤 서비스가 필요하신가요?</h2>
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-y-6 gap-x-4">
-            {CATEGORIES.map((category) => (
-              <button key={category.id} className="flex flex-col items-center gap-3 group">
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-[#F6F6F6] group-hover:scale-105 transition-transform duration-200">
-                  <category.icon />
-                </div>
-                <span className="text-sm font-medium text-gray-700">{category.name}</span>
-              </button>
-            ))}
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Popular Services */}
         <section className="py-8 md:py-16 bg-white">
@@ -309,13 +583,13 @@ export default function App() {
                 전체보기 <ChevronRight className="w-4 h-4 ml-0.5" />
               </a>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               {POPULAR_SERVICES.map((service) => (
                 <a key={service.id} href="#" className="group block">
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 mb-4">
-                    <img 
-                      src={service.image} 
+                    <img
+                      src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       referrerPolicy="no-referrer"
@@ -363,9 +637,9 @@ export default function App() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <img 
-                  src="/images/logo/busylogo.png" 
-                  alt="비지터스 로고" 
+                <img
+                  src="/images/logo/busylogo.png"
+                  alt="비지터스 로고"
                   className="h-6 w-auto grayscale opacity-80"
                 />
                 <h4 className="text-xl font-jua text-[#3b2313] tracking-wide pt-1">비지터스</h4>
