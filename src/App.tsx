@@ -617,13 +617,13 @@ export default function App() {
     <div className="min-h-screen bg-white">
       {/* Header - 모바일 */}
       <header className="md:hidden sticky top-0 z-50 bg-white border-b border-gray-100">
+        {/* 1행: 로고 + 우측 액션 */}
         <div className="px-4 h-14 flex items-center justify-between">
           <a href="#" className="flex items-center gap-1.5">
             <img src="/images/logo/busylogo.png" alt="비지터스" className="h-7 w-auto" />
             <span className="text-lg font-jua text-[#3b2313] tracking-wide pt-0.5">비지터스</span>
           </a>
-          <div className="flex items-center gap-1.5">
-            <DesignSwitcher design={design} setDesign={setDesign} />
+          <div className="flex items-center gap-0.5">
             <button className="flex items-center gap-0.5 text-xs font-semibold text-[#1a1a1a] px-2.5 py-1.5 rounded-full bg-[#f7f7f7]">
               <MapPin className="w-3.5 h-3.5 text-[#1a1a1a]/40" />
               강남구
@@ -635,6 +635,11 @@ export default function App() {
               <User className="w-5 h-5" />
             </button>
           </div>
+        </div>
+        {/* 2행: 디자인 switcher */}
+        <div className="px-4 pb-2 flex items-center gap-2">
+          <span className="text-xs text-[#1a1a1a]/30">디자인 테스트</span>
+          <DesignSwitcher design={design} setDesign={setDesign} />
         </div>
       </header>
 
